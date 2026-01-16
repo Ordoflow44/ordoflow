@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply selection:bg-brand-purple selection:text-white;
+  }
+}
+
+@layer components {
+  /* Subtle Grid Background */
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400;
+  }
+
+  /* Glow Effects */
+  .glow-purple {
+    box-shadow: 0 0 60px -15px rgba(138, 43, 226, 0.3);
+  }
+
+  /* Hover Card Effect */
+  .hover-card {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(138, 43, 226, 0.4);
+    box-shadow: 0 10px 40px -10px rgba(138, 43, 226, 0.1);
+  }
+
+  /* Float Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Icon glow effects */
+  .icon-glow-orange {
+    filter: drop-shadow(0 0 15px rgba(234, 88, 12, 0.6));
+  }
+
+  .icon-glow-purple {
+    filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white bg-brand-purple rounded-lg hover:bg-brand-purple-dark transition-all glow-purple;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white bg-transparent border border-zinc-800 rounded-lg hover:bg-zinc-900 transition-colors;
+  }
+}
+
+@layer utilities {
+  /* Prose styles for blog content */
+  .prose-brand {
+    @apply text-zinc-300 leading-relaxed;
+  }
+
+  .prose-brand h1 {
+    @apply text-4xl font-semibold text-white mb-6 mt-8;
+  }
+
+  .prose-brand h2 {
+    @apply text-2xl font-semibold text-white mb-4 mt-8;
+  }
+
+  .prose-brand h3 {
+    @apply text-xl font-medium text-white mb-3 mt-6;
+  }
+
+  .prose-brand p {
+    @apply mb-4;
+  }
+
+  .prose-brand a {
+    @apply text-brand-purple hover:underline;
+  }
+
+  .prose-brand ul {
+    @apply list-disc list-inside mb-4 space-y-2;
+  }
+
+  .prose-brand ol {
+    @apply list-decimal list-inside mb-4 space-y-2;
+  }
+
+  .prose-brand blockquote {
+    @apply border-l-4 border-brand-purple pl-4 italic my-4 text-zinc-400;
+  }
+
+  .prose-brand code {
+    @apply bg-zinc-800 px-2 py-0.5 rounded text-sm;
+  }
+
+  .prose-brand pre {
+    @apply bg-zinc-900 p-4 rounded-lg overflow-x-auto mb-4;
+  }
+
+  .prose-brand img {
+    @apply rounded-lg my-6;
+  }
+
+  .prose-brand table {
+    @apply w-full mb-4 border-collapse;
+  }
+
+  .prose-brand th {
+    @apply bg-zinc-800 text-white text-left p-3 border border-zinc-700;
+  }
+
+  .prose-brand td {
+    @apply p-3 border border-zinc-700;
+  }
+}
