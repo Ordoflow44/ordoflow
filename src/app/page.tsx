@@ -385,12 +385,14 @@ export default function HomePage() {
                     Zostawia czarną skrzynkę
                   </div>
                   <div className="flex font-medium text-white bg-purple-500/10 p-4 md:p-6 pb-8 md:pb-10 gap-3 md:gap-4 items-center min-h-full shadow-[inset_0_0_20px_rgba(168,85,247,0.2)]">
+                    import Image from 'next/image'
                     <Image
-                      src={getImageUrl(IMAGES.checkbox)}
+                      src="https://ydpkhdwqkbxifgnlwtrq.supabase.co/storage/v1/object/public/Images/checkbox.png"
                       alt="Check"
                       width={40}
                       height={40}
                       className="w-10 h-10 md:w-12 md:h-12 icon-glow-purple flex-shrink-0"
+                      unoptimized
                     />
                     <span className="leading-tight text-xs md:text-sm">Otrzymujesz instrukcję i opiekę</span>
                   </div>
