@@ -83,8 +83,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Problem Cards Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {/* Problem Cards Grid - Row 1: 3 cards */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-6">
               {/* Card 1 */}
               <div className="group hover-card card">
                 <div className="flex flex-col items-center text-center space-y-6">
@@ -144,7 +144,10 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
+            </div>
 
+            {/* Problem Cards Grid - Row 2: 2 cards centered */}
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {/* Card 4 */}
               <div className="group hover-card card">
                 <div className="flex flex-col items-center text-center space-y-6">
@@ -315,10 +318,11 @@ export default function HomePage() {
               src={getImageUrl(IMAGES.maciejTlo)}
               alt="Maciej Kanikowski"
               fill
-              className="object-cover opacity-50"
+              className="object-cover opacity-70"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0F] via-[#0A0A0F]/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0F]/60 via-transparent to-[#0A0A0F]/60" />
+            {/* Gradient odwrócony - postać (lewa strona) widoczna, prawa przyciemniona */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0A0A0F]/70 to-[#0A0A0F]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0F]/40 via-transparent to-[#0A0A0F]/40" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-6">
