@@ -1,23 +1,89 @@
+import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+import bcrypt from 'bcryptjs'
 
-export async function POST(request: Request) {
-  const { password } = await request.json()
-  const adminPassword = process.env.ADMIN_PASSWORD
+// Use service role key to bypass RLS
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
-  if (password === adminPassword) {
-    // Set a simple session cookie
-    const cookieStore = cookies()
-    cookieStore.set('admin_session', 'authenticated', {
+export async function POST(request: NextRequest) {
+  try {
+    const { email, password } = await request.json()
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: 'Email i hasło są wymagane' },
+        { status: 400 }
+      )
+    }
+
+    // Find admin by email
+    const { data: admin, error } = await supabaseAdmin
+      .from('admins')
+      .select('*')
+      .eq('email', email.toLowerCase())
+      .single()
+
+    if (error || !admin) {
+      return NextResponse.json(
+        { error: 'Nieprawidłowy email lub hasło' },
+        { status: 401 }
+      )
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, admin.password_hash)
+
+    if (!isValidPassword) {
+      return NextResponse.json(
+        { error: 'Nieprawidłowy email lub hasło' },
+        { status: 401 }
+      )
+    }
+
+    // Update last login
+    await supabaseAdmin
+      .from('admins')
+      .update({ last_login_at: new Date().toISOString() })
+      .eq('id', admin.id)
+
+    // Create session token (simple implementation - in production use JWT)
+    const sessionToken = Buffer.from(
+      JSON.stringify({
+        adminId: admin.id,
+        email: admin.email,
+        name: admin.name,
+        exp: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
+      })
+    ).toString('base64')
+
+    // Set cookie
+    const cookieStore = await cookies()
+    cookieStore.set('admin_session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24, // 24 hours
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60, // 7 days
       path: '/',
     })
 
-    return NextResponse.json({ success: true })
-  }
+    return NextResponse.json({
+      success: true,
+      admin: {
+        id: admin.id,
+        email: admin.email,
+        name: admin.name
+      }
+    })
 
-  return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
+  } catch (error) {
+    console.error('Login error:', error)
+    return NextResponse.json(
+      { error: 'Wystąpił błąd podczas logowania' },
+      { status: 500 }
+    )
+  }
 }

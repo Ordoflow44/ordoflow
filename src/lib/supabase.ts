@@ -35,4 +35,3 @@ export const IMAGES = {
   // Inne
   checkbox: 'checkbox.png',
 } as const
-

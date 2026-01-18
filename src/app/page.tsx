@@ -5,6 +5,31 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { getImageUrl, IMAGES } from '@/lib/supabase'
 
+// Komponent CTA używany pod każdą sekcją
+function CTAButton({ variant = 'primary' }: { variant?: 'primary' | 'secondary' }) {
+  if (variant === 'secondary') {
+    return (
+      <Link
+        href="#contact"
+        className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-purple-400 hover:text-white border border-purple-500/30 hover:border-purple-500 rounded-xl transition-all hover:bg-purple-500/10"
+      >
+        <span>Umów bezpłatną konsultację</span>
+        <ArrowRight className="w-4 h-4" />
+      </Link>
+    )
+  }
+  
+  return (
+    <Link
+      href="#contact"
+      className="btn-primary group"
+    >
+      <span>Umów bezpłatną konsultację</span>
+      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+    </Link>
+  )
+}
+
 export default function HomePage() {
   return (
     <>
@@ -41,16 +66,8 @@ export default function HomePage() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href="https://cal.com/maciej-kanikowski-ordoflow/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary group"
-                  >
-                    <span>Umów Bezpłatną Konsultację</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                  <Link href="/#case-studies" className="btn-secondary">
+                  <CTAButton />
+                  <Link href="#case-studies" className="btn-secondary">
                     Zobacz Case Study
                   </Link>
                 </div>
@@ -74,7 +91,7 @@ export default function HomePage() {
         <section className="relative py-24 border-y border-white/5 bg-gradient-to-b from-transparent via-purple-950/5 to-transparent">
           <div className="max-w-7xl mx-auto px-6">
             {/* Header */}
-            <div className="text-center mb-20 space-y-4">
+            <div className="text-center mb-16 space-y-4">
               <h2 className="font-display text-4xl lg:text-5xl font-bold text-white">
                 Czy Twoja firma też ugrzęzła w mikrozarządzaniu?
               </h2>
@@ -84,21 +101,23 @@ export default function HomePage() {
             </div>
 
             {/* Problem Cards Grid - Row 1: 3 cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-8">
               {/* Card 1 */}
-              <div className="group hover-card card">
-                <div className="flex flex-col items-center text-center space-y-6">
-                  <Image
-                    src={getImageUrl(IMAGES.przepalanie)}
-                    alt="Przepalanie marży"
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-contain img-glow-orange"
-                  />
-                  <h3 className="font-display text-2xl font-bold text-white">
+              <div className="group hover-card card h-full">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="w-32 h-32 mb-6 flex items-center justify-center">
+                    <Image
+                      src={getImageUrl(IMAGES.przepalanie)}
+                      alt="Przepalanie marży"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-contain img-glow-orange"
+                    />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-4">
                     Przepalanie marży
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     Płacisz wykwalifikowanym pracownikom za kopiowanie danych między 
                     tabelkami, zamiast za pracę, która przynosi zysk.
                   </p>
@@ -106,19 +125,21 @@ export default function HomePage() {
               </div>
 
               {/* Card 2 */}
-              <div className="group hover-card card">
-                <div className="flex flex-col items-center text-center space-y-6">
-                  <Image
-                    src={getImageUrl(IMAGES.szklanySufit)}
-                    alt="Szklany sufit"
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-contain img-glow-orange"
-                  />
-                  <h3 className="font-display text-2xl font-bold text-white">
+              <div className="group hover-card card h-full">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="w-32 h-32 mb-6 flex items-center justify-center">
+                    <Image
+                      src={getImageUrl(IMAGES.szklanySufit)}
+                      alt="Szklany sufit"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-contain img-glow-orange"
+                    />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-4">
                     Szklany sufit
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     Chcesz skalować biznes, ale operacyjnie nie jesteś w stanie obsłużyć 
                     2x więcej klientów bez zatrudniania armii nowych ludzi.
                   </p>
@@ -126,19 +147,21 @@ export default function HomePage() {
               </div>
 
               {/* Card 3 */}
-              <div className="group hover-card card">
-                <div className="flex flex-col items-center text-center space-y-6">
-                  <Image
-                    src={getImageUrl(IMAGES.syndrom)}
-                    alt="Syndrom Kopiuj-Wklej"
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-contain img-glow-orange"
-                  />
-                  <h3 className="font-display text-2xl font-bold text-white">
+              <div className="group hover-card card h-full">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="w-32 h-32 mb-6 flex items-center justify-center">
+                    <Image
+                      src={getImageUrl(IMAGES.syndrom)}
+                      alt="Syndrom Kopiuj-Wklej"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-contain img-glow-orange"
+                    />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-4">
                     Syndrom Kopiuj-Wklej
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     Marnujesz cenne godziny na powtarzalne odpisywanie na te same pytania. 
                     Zamiast domykać kluczowe deale, toniesz w bieżączce.
                   </p>
@@ -147,21 +170,23 @@ export default function HomePage() {
             </div>
 
             {/* Problem Cards Grid - Row 2: 2 cards centered */}
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
               {/* Card 4 */}
-              <div className="group hover-card card">
-                <div className="flex flex-col items-center text-center space-y-6">
-                  <Image
-                    src={getImageUrl(IMAGES.lejek)}
-                    alt="Dziurawy lejek"
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-contain img-glow-orange"
-                  />
-                  <h3 className="font-display text-2xl font-bold text-white">
+              <div className="group hover-card card h-full">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="w-32 h-32 mb-6 flex items-center justify-center">
+                    <Image
+                      src={getImageUrl(IMAGES.lejek)}
+                      alt="Dziurawy lejek"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-contain img-glow-orange"
+                    />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-4">
                     Dziurawy lejek
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     Zapomniane faktury, zgubione leady i pomyłki w zamówieniach. 
                     Przez brak systemu tracisz klientów gotowych zapłacić.
                   </p>
@@ -169,24 +194,31 @@ export default function HomePage() {
               </div>
 
               {/* Card 5 */}
-              <div className="group hover-card card">
-                <div className="flex flex-col items-center text-center space-y-6">
-                  <Image
-                    src={getImageUrl(IMAGES.rotacja)}
-                    alt="Kosztowna Rotacja"
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-contain img-glow-orange"
-                  />
-                  <h3 className="font-display text-2xl font-bold text-white">
+              <div className="group hover-card card h-full">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="w-32 h-32 mb-6 flex items-center justify-center">
+                    <Image
+                      src={getImageUrl(IMAGES.rotacja)}
+                      alt="Kosztowna Rotacja"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-contain img-glow-orange"
+                    />
+                  </div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-4">
                     Kosztowna Rotacja
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     Pracownicy odchodzą, zabierając know-how. Tracisz tygodnie na drogie 
                     szkolenia nowych osób, które bez procedur są zagubione.
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* CTA pod sekcją */}
+            <div className="text-center">
+              <CTAButton />
             </div>
           </div>
         </section>
@@ -208,6 +240,11 @@ export default function HomePage() {
               którzy pracują 24/7. Jako przedsiębiorca z 15-letnim stażem, nie patrzę w kod. 
               Patrzę w Twój rachunek zysków i strat (P&L).
             </p>
+            
+            {/* CTA pod sekcją */}
+            <div className="pt-4">
+              <CTAButton />
+            </div>
           </div>
         </section>
 
@@ -231,22 +268,22 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
               {/* Case Study 1 */}
-              <div className="group hover-card gradient-border p-8 space-y-6">
-                <div className="relative">
+              <div className="group hover-card gradient-border p-8 space-y-6 h-full flex flex-col">
+                <div className="w-32 h-32 mx-auto flex items-center justify-center">
                   <Image
                     src={getImageUrl(IMAGES.onboarding)}
                     alt="Cyfrowy Onboarding"
-                    width={112}
-                    height={112}
-                    className="w-28 h-28 object-contain mx-auto img-glow"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-contain img-glow"
                   />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white text-center">
                   Cyfrowy Onboarding
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="text-gray-400 leading-relaxed flex-grow">
                   Zamiast tracić tygodnie na ręczne szkolenie każdego nowego pracownika, 
                   dajesz mu dostęp do interaktywnego systemu, który wdraża go krok po kroku.
                 </p>
@@ -258,20 +295,20 @@ export default function HomePage() {
               </div>
 
               {/* Case Study 2 */}
-              <div className="group hover-card gradient-border p-8 space-y-6">
-                <div className="relative">
+              <div className="group hover-card gradient-border p-8 space-y-6 h-full flex flex-col">
+                <div className="w-32 h-32 mx-auto flex items-center justify-center">
                   <Image
                     src={getImageUrl(IMAGES.asystent)}
                     alt="Asystent Sprzedaży 24/7"
-                    width={112}
-                    height={112}
-                    className="w-28 h-28 object-contain mx-auto img-glow"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-contain img-glow"
                   />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white text-center">
                   Asystent Sprzedaży 24/7
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="text-gray-400 leading-relaxed flex-grow">
                   AI, które natychmiast reaguje na wpadające leady, kwalifikuje klientów 
                   i umawia spotkania w Twoim kalendarzu.
                 </p>
@@ -283,20 +320,20 @@ export default function HomePage() {
               </div>
 
               {/* Case Study 3 */}
-              <div className="group hover-card gradient-border p-8 space-y-6">
-                <div className="relative">
+              <div className="group hover-card gradient-border p-8 space-y-6 h-full flex flex-col">
+                <div className="w-32 h-32 mx-auto flex items-center justify-center">
                   <Image
                     src={getImageUrl(IMAGES.integracja)}
                     alt="Integracja Narzędzi"
-                    width={112}
-                    height={112}
-                    className="w-28 h-28 object-contain mx-auto img-glow"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-contain img-glow"
                   />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white text-center">
                   Integracja Narzędzi
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="text-gray-400 leading-relaxed flex-grow">
                   Nie musisz zmieniać oprogramowania. Sprawiamy, że Twój obecny CRM, 
                   Excel i bank zaczynają ze sobą rozmawiać.
                 </p>
@@ -306,6 +343,11 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* CTA pod sekcją */}
+            <div className="text-center">
+              <CTAButton />
             </div>
           </div>
         </section>
@@ -441,6 +483,11 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
+
+                {/* CTA pod sekcją */}
+                <div className="text-center pt-4">
+                  <CTAButton />
+                </div>
               </div>
             </div>
           </div>
@@ -460,7 +507,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-4 gap-6 mb-20">
+            <div className="grid md:grid-cols-4 gap-6 mb-12">
               {/* Step 1 */}
               <div className="relative group">
                 <div className="h-full bg-gradient-to-b from-purple-900/20 to-gray-900/40 border-2 border-purple-500/30 hover:border-purple-500 rounded-2xl p-8 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20">
@@ -535,7 +582,7 @@ export default function HomePage() {
             </div>
 
             {/* Pricing CTA */}
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto mb-12">
               <div className="gradient-border p-1">
                 <div className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl p-12 text-center space-y-6">
                   <div className="w-20 h-20 mx-auto rounded-full bg-purple-600/20 flex items-center justify-center glow-purple">
@@ -568,11 +615,16 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+
+            {/* CTA pod sekcją */}
+            <div className="text-center">
+              <CTAButton />
+            </div>
           </div>
         </section>
 
-        {/* CONTACT CTA SECTION */}
-        <section className="relative py-32 overflow-hidden border-t border-white/5">
+        {/* CONTACT FORM SECTION */}
+        <section id="contact" className="relative py-32 overflow-hidden border-t border-white/5">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/20 to-transparent" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600 rounded-full blur-[200px] opacity-20" />
 
@@ -583,13 +635,15 @@ export default function HomePage() {
             <p className="text-xl lg:text-2xl text-gray-400 font-light max-w-2xl mx-auto">
               Wybierz dogodny termin w kalendarzu na bezpłatną konsultację wstępną.
             </p>
+            
+            {/* Przycisk prowadzący do Cal.com */}
             <a
-              href="https://cal.com/maciej-kanikowski-ordoflow/30min"
+              href="https://cal.com/maciej-kanikowski-ordoflow/analiza-waskich-gardel?overlayCalendar=true"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-lg font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-all glow-purple-intense shadow-2xl shadow-purple-900/30"
             >
-              <span>Otwórz Kalendarz</span>
+              <span>Umów bezpłatną konsultację</span>
               <svg className="group-hover:translate-x-1 transition-transform" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
