@@ -3,10 +3,12 @@ import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
 import bcrypt from 'bcryptjs'
 
-// Use service role key to bypass RLS
+// Use service role key to bypass RLS - support both naming conventions
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.supabase_service_role_key
+
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  serviceRoleKey!
 )
 
 export async function POST(request: NextRequest) {
@@ -20,6 +22,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if service role key is configured
+    if (!serviceRoleKey) {
+      console.error('Missing SUPABASE_SERVICE_ROLE_KEY')
+      return NextResponse.json(
+        { error: 'Błąd konfiguracji serwera' },
+        { status: 500 }
+      )
+    }
+
     // Find admin by email
     const { data: admin, error } = await supabaseAdmin
       .from('admins')
@@ -28,6 +39,7 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error || !admin) {
+      console.error('Admin not found:', error)
       return NextResponse.json(
         { error: 'Nieprawidłowy email lub hasło' },
         { status: 401 }
@@ -50,7 +62,7 @@ export async function POST(request: NextRequest) {
       .update({ last_login_at: new Date().toISOString() })
       .eq('id', admin.id)
 
-    // Create session token (simple implementation - in production use JWT)
+    // Create session token
     const sessionToken = Buffer.from(
       JSON.stringify({
         adminId: admin.id,
