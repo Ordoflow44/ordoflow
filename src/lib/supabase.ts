@@ -12,16 +12,27 @@ export const getImageUrl = (filename: string) => {
 
 // Stałe z nazwami obrazków
 export const IMAGES = {
+  // Główne
   logo: 'Logo.png',
   hero: 'Przeplyw.webp',
-  paloneBudget: 'palony_budzet.png',
-  crush: 'crush.png',
-  puzzleGlowa: 'puzze_w_glowie.png',
-  zegar: 'zegar.png',
-  tablet: 'tablet.png',
-  iconBlyskawica: 'Icon_blyskawica.png',
-  puzzlePolaczone: 'puzzle_poła_czone.png',
+  
+  // Sekcja "Problem" (pomarańczowe ikony)
+  przepalanie: 'przepalanie.png',
+  szklanySufit: 'szklany_sufit.png',
+  syndrom: 'syndrom.png',
+  lejek: 'lejek.png',
+  rotacja: 'rotacja.png',
+  
+  // Sekcja "Case Studies" (fioletowe ikony)
+  onboarding: 'onboarding.png',
+  asystent: 'asystent.png',
+  integracja: 'integracja.png',
+  
+  // Sekcja "About"
   maciejTlo: 'Maciej_tlo.png',
   maciejTablet: 'Maciej_tablet.png',
+  
+  // Inne
   checkbox: 'checkbox.png',
 } as const
+
