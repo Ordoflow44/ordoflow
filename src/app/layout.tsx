@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin', 'latin-ext'] })
 
 export const metadata: Metadata = {
   title: {
@@ -39,9 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl" className="scroll-smooth">
-      <body className={`${inter.className} bg-brand-bg text-zinc-400 antialiased`}>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
