@@ -81,10 +81,10 @@ export default function HomePage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Problem Card 1 */}
+              {/* Problem Card 1 - Przepalanie marży */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.paloneBudget)}
+                  src={getImageUrl(IMAGES.przepalanie)}
                   alt="Przepalanie marży"
                   width={104}
                   height={104}
@@ -99,10 +99,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Problem Card 2 */}
+              {/* Problem Card 2 - Szklany sufit */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.crush)}
+                  src={getImageUrl(IMAGES.szklanySufit)}
                   alt="Szklany sufit"
                   width={104}
                   height={104}
@@ -117,10 +117,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Problem Card 3 */}
+              {/* Problem Card 3 - Syndrom Kopiuj-Wklej */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.puzzleGlowa)}
+                  src={getImageUrl(IMAGES.syndrom)}
                   alt="Syndrom Kopiuj-Wklej"
                   width={104}
                   height={104}
@@ -135,10 +135,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Problem Card 4 */}
+              {/* Problem Card 4 - Dziurawy lejek */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.zegar)}
+                  src={getImageUrl(IMAGES.lejek)}
                   alt="Dziurawy lejek"
                   width={104}
                   height={104}
@@ -153,10 +153,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Problem Card 5 */}
+              {/* Problem Card 5 - Kosztowna rotacja */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.tablet)}
+                  src={getImageUrl(IMAGES.rotacja)}
                   alt="Kosztowna Rotacja"
                   width={104}
                   height={104}
@@ -203,10 +203,10 @@ export default function HomePage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {/* Case Study 1 */}
+              {/* Case Study 1 - Cyfrowy Onboarding */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.iconBlyskawica)}
+                  src={getImageUrl(IMAGES.onboarding)}
                   alt="Cyfrowy Onboarding"
                   width={104}
                   height={104}
@@ -224,10 +224,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Case Study 2 */}
+              {/* Case Study 2 - Asystent Sprzedaży */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.puzzlePolaczone)}
+                  src={getImageUrl(IMAGES.asystent)}
                   alt="Asystent Sprzedaży 24/7"
                   width={104}
                   height={104}
@@ -245,10 +245,10 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Case Study 3 */}
+              {/* Case Study 3 - Integracja Narzędzi */}
               <div className="group hover-card bg-zinc-900/40 border border-white/5 rounded-2xl p-8">
                 <Image
-                  src={getImageUrl(IMAGES.puzzlePolaczone)}
+                  src={getImageUrl(IMAGES.integracja)}
                   alt="Integracja Narzędzi"
                   width={104}
                   height={104}
@@ -385,14 +385,12 @@ export default function HomePage() {
                     Zostawia czarną skrzynkę
                   </div>
                   <div className="flex font-medium text-white bg-purple-500/10 p-4 md:p-6 pb-8 md:pb-10 gap-3 md:gap-4 items-center min-h-full shadow-[inset_0_0_20px_rgba(168,85,247,0.2)]">
-                    import Image from 'next/image'
                     <Image
-                      src="https://ydpkhdwqkbxifgnlwtrq.supabase.co/storage/v1/object/public/Images/checkbox.png"
+                      src={getImageUrl(IMAGES.checkbox)}
                       alt="Check"
                       width={40}
                       height={40}
                       className="w-10 h-10 md:w-12 md:h-12 icon-glow-purple flex-shrink-0"
-                      unoptimized
                     />
                     <span className="leading-tight text-xs md:text-sm">Otrzymujesz instrukcję i opiekę</span>
                   </div>
@@ -492,3 +490,4 @@ export default function HomePage() {
     </>
   )
 }
+
