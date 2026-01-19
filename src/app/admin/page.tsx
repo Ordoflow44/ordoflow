@@ -188,7 +188,7 @@ export default function AdminLoginPage() {
 
               </button>
 
-              <div className="text-center">
+              <div className="text-center"> mt-4
                 <button
                   type="button"
                   onClick={() => setShowForgotPassword(true)}
