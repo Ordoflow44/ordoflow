@@ -83,7 +83,7 @@ function IntegrationsForm() {
                 Zapisz Integracje
             </button>
         </div>
-    )
+    );
 }
 
 function PrivacyEditor() {
@@ -147,4 +147,38 @@ function AddUserForm() {
       <input type="text" placeholder="Imię" required className="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-green-500 outline-none"
         value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
       <input type="email" placeholder="Email" required className="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-green-500 outline-none"
-        value={formData.email} onChange={e => setFormData({...formData, email:
+        value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+      <input type="password" placeholder="Hasło" required className="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-green-500 outline-none"
+        value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} />
+      <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium transition-colors">Dodaj</button>
+    </form>
+  );
+}
+
+function ChangePasswordForm() {
+  const [data, setData] = useState({ email: '', newPassword: '' });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/admin/users', {
+      method: 'POST',
+      body: JSON.stringify({ email: data.email, newPassword: data.newPassword, currentPassword: 'dummy' }),
+    });
+    if (res.ok) {
+      alert('Hasło zmienione!');
+      setData({ email: '', newPassword: '' });
+    } else {
+      alert('Błąd zmiany hasła');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input type="email" placeholder="Email użytkownika" required className="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-blue-500 outline-none"
+        value={data.email} onChange={e => setData({...data, email: e.target.value})} />
+      <input type="password" placeholder="Nowe Hasło" required className="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-blue-500 outline-none"
+        value={data.newPassword} onChange={e => setData({...data, newPassword: e.target.value})} />
+      <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors">Zmień</button>
+    </form>
+  );
+}
