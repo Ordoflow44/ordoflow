@@ -125,17 +125,6 @@ DROP POLICY IF EXISTS "Service role can manage tokens" ON password_reset_tokens;
 CREATE POLICY "Service role can manage tokens" ON password_reset_tokens
     FOR ALL USING (auth.role() = 'service_role');
 
--- ===========================================
--- INSERT DEFAULT ADMIN
--- ===========================================
--- Password: Admin123! (hashed with bcrypt)
--- You should change this after first login!
-INSERT INTO admins (email, password_hash, name) 
-VALUES (
-    'admin@ordoflow.pl',
-    '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu.1q',
-    'Administrator'
-) ON CONFLICT (email) DO NOTHING;
 
 -- ===========================================
 -- NOTES
