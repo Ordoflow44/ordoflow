@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase'; // Upewnij się, że masz ten import
+import { createClient } from '@supabase/supabase-js';
 
-// Pobieranie treści
+// Konfiguracja klienta Supabase dla API
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// 1. Pobieranie treści (GET)
 export async function GET() {
   const { data, error } = await supabase
     .from('static_pages')
@@ -13,7 +18,7 @@ export async function GET() {
   return NextResponse.json(data);
 }
 
-// Aktualizacja treści
+// 2. Aktualizacja treści (PUT)
 export async function PUT(request: Request) {
   const body = await request.json();
   const { content } = body;
