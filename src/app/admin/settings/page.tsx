@@ -1,57 +1,62 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import AdminNav from '@/components/admin/AdminNav'; // Importujemy Twój sidebar
 
 export default function SettingsPage() {
   return (
-    // ZMIANA: Usunąłem "min-h-screen" i tło, teraz dopasuje się do layoutu panelu
-    <div className="text-white max-w-5xl">
-      
-      {/* Nagłówek */}
-      <div className="flex justify-between items-end mb-8 border-b border-gray-800 pb-4">
-        <div>
-          <h1 className="text-3xl font-bold">Ustawienia</h1>
-          <p className="text-gray-400 mt-1">Integracje, Social Media i Bezpieczeństwo</p>
+    <div className="flex min-h-screen">
+      {/* 1. Sidebar po lewej */}
+      <AdminNav />
+
+      {/* 2. Główna treść przesunięta w prawo (lg:ml-64) */}
+      <main className="flex-1 lg:ml-64 pt-20 lg:pt-0">
+        <div className="p-6 lg:p-8 text-white max-w-6xl">
+          
+          {/* Nagłówek */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-semibold text-white mb-2">Ustawienia</h1>
+            <p className="text-zinc-400">Integracje, Social Media i Bezpieczeństwo</p>
+          </div>
+          
+          {/* Kontener pionowy */}
+          <div className="space-y-8 pb-20">
+            
+            {/* SEKCJA 1: Integracje i Social Media */}
+            <section className="bg-zinc-900/40 border border-white/5 p-6 rounded-xl">
+              <h2 className="text-xl font-medium mb-6 text-purple-400 flex items-center gap-2">
+                 1. Integracje i Social Media
+              </h2>
+              <IntegrationsForm />
+            </section>
+
+            {/* SEKCJA 2: Polityka Prywatności */}
+            <section className="bg-zinc-900/40 border border-white/5 p-6 rounded-xl">
+              <h2 className="text-xl font-medium mb-6 text-purple-400 flex items-center gap-2">
+                 2. Polityka Prywatności
+              </h2>
+              <PrivacyEditor />
+            </section>
+
+            {/* SEKCJA 3: Bezpieczeństwo (Dwa kafelki obok siebie) */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <section className="bg-zinc-900/40 border border-white/5 p-6 rounded-xl">
+                <h2 className="text-lg font-medium mb-4 text-green-400">
+                  Dodaj Administratora
+                </h2>
+                <AddUserForm />
+              </section>
+
+              <section className="bg-zinc-900/40 border border-white/5 p-6 rounded-xl">
+                <h2 className="text-lg font-medium mb-4 text-blue-400">
+                  Zmień Hasło
+                </h2>
+                <ChangePasswordForm />
+              </section>
+            </div>
+
+          </div>
         </div>
-      </div>
-      
-      {/* Kontener pionowy (Wszystko w jednej kolumnie) */}
-      <div className="space-y-10 pb-20">
-        
-        {/* SEKCJA 1: Integracje i Social Media */}
-        <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
-          <h2 className="text-2xl font-bold mb-6 text-purple-400 flex items-center gap-2">
-             1. Integracje i Social Media
-          </h2>
-          <IntegrationsForm />
-        </section>
-
-        {/* SEKCJA 2: Polityka Prywatności */}
-        <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
-          <h2 className="text-2xl font-bold mb-6 text-purple-400 flex items-center gap-2">
-             2. Polityka Prywatności
-          </h2>
-          <PrivacyEditor />
-        </section>
-
-        {/* SEKCJA 3: Bezpieczeństwo (Dwa kafelki obok siebie) */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
-            <h2 className="text-xl font-bold mb-4 text-green-400">
-              Dodaj Administratora
-            </h2>
-            <AddUserForm />
-          </section>
-
-          <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
-            <h2 className="text-xl font-bold mb-4 text-blue-400">
-              Zmień Hasło
-            </h2>
-            <ChangePasswordForm />
-          </section>
-        </div>
-
-      </div>
+      </main>
     </div>
   );
 }
@@ -62,35 +67,35 @@ function IntegrationsForm() {
         <div className="grid md:grid-cols-2 gap-8">
             {/* Lewa kolumna: Analityka */}
             <div className="space-y-4">
-                <h3 className="font-bold text-white mb-4 border-b border-gray-700 pb-2">Analityka i SEO</h3>
+                <h3 className="font-medium text-white mb-4 border-b border-white/10 pb-2">Analityka i SEO</h3>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Google Analytics 4 (ID)</label>
-                    <input type="text" placeholder="G-XXXXXXXXXX" className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-purple-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">Google Analytics 4 (ID)</label>
+                    <input type="text" placeholder="G-XXXXXXXXXX" className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-purple-500 outline-none placeholder-zinc-600" />
                 </div>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Google Search Console (Kod HTML)</label>
-                    <input type="text" placeholder='content="..."' className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-purple-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">Google Search Console (Kod HTML)</label>
+                    <input type="text" placeholder='content="..."' className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-purple-500 outline-none placeholder-zinc-600" />
                 </div>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Pixel / Hotjar (ID)</label>
-                    <input type="text" placeholder="ID..." className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-purple-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">Pixel / Hotjar (ID)</label>
+                    <input type="text" placeholder="ID..." className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-purple-500 outline-none placeholder-zinc-600" />
                 </div>
             </div>
 
             {/* Prawa kolumna: Social Media (NOWE) */}
             <div className="space-y-4">
-                <h3 className="font-bold text-white mb-4 border-b border-gray-700 pb-2">Social Media & Kontakt</h3>
+                <h3 className="font-medium text-white mb-4 border-b border-white/10 pb-2">Social Media & Kontakt</h3>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Facebook (Link)</label>
-                    <input type="text" placeholder="https://facebook.com/twoja-strona" className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-blue-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">Facebook (Link)</label>
+                    <input type="text" placeholder="https://facebook.com/twoja-strona" className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-blue-500 outline-none placeholder-zinc-600" />
                 </div>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Instagram (Link)</label>
-                    <input type="text" placeholder="https://instagram.com/twoj-profil" className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-pink-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">Instagram (Link)</label>
+                    <input type="text" placeholder="https://instagram.com/twoj-profil" className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-pink-500 outline-none placeholder-zinc-600" />
                 </div>
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">WhatsApp / Bot (Link)</label>
-                    <input type="text" placeholder="https://wa.me/48XXXXXXXXX" className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-green-500 outline-none" />
+                    <label className="block text-sm text-zinc-400 mb-1">WhatsApp / Bot (Link)</label>
+                    <input type="text" placeholder="https://wa.me/48XXXXXXXXX" className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-green-500 outline-none placeholder-zinc-600" />
                 </div>
             </div>
 
@@ -123,16 +128,16 @@ function PrivacyEditor() {
     alert('Zapisano zmiany!');
   };
 
-  if (loading) return <p className="text-gray-400">Ładowanie treści...</p>;
+  if (loading) return <p className="text-zinc-500">Ładowanie treści...</p>;
 
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-gray-400">Wklej kod HTML:</p>
+          <p className="text-sm text-zinc-400">Wklej kod HTML:</p>
           <a href="/polityka-prywatnosci" target="_blank" className="text-purple-400 text-sm hover:underline">Podgląd na żywo ↗</a>
       </div>
       <textarea 
-        className="w-full h-80 p-4 border border-gray-700 rounded-xl bg-black/40 font-mono text-sm text-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
+        className="w-full h-80 p-4 border border-zinc-700 rounded-xl bg-black/40 font-mono text-sm text-zinc-300 focus:ring-2 focus:ring-purple-500 outline-none"
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
@@ -163,11 +168,11 @@ function AddUserForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input type="text" placeholder="Imię" required className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-green-500 outline-none"
+      <input type="text" placeholder="Imię" required className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-green-500 outline-none placeholder-zinc-600"
         value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-      <input type="email" placeholder="Email" required className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-green-500 outline-none"
+      <input type="email" placeholder="Email" required className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-green-500 outline-none placeholder-zinc-600"
         value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-      <input type="password" placeholder="Hasło" required className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-green-500 outline-none"
+      <input type="password" placeholder="Hasło" required className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-green-500 outline-none placeholder-zinc-600"
         value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} />
       <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">Dodaj</button>
     </form>
@@ -194,9 +199,9 @@ function ChangePasswordForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input type="email" placeholder="Email użytkownika" required className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-blue-500 outline-none"
+      <input type="email" placeholder="Email użytkownika" required className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-blue-500 outline-none placeholder-zinc-600"
         value={data.email} onChange={e => setData({...data, email: e.target.value})} />
-      <input type="password" placeholder="Nowe Hasło" required className="w-full bg-black/40 border border-gray-700 rounded p-2.5 text-white focus:border-blue-500 outline-none"
+      <input type="password" placeholder="Nowe Hasło" required className="w-full bg-black/40 border border-zinc-700 rounded p-2.5 text-white focus:border-blue-500 outline-none placeholder-zinc-600"
         value={data.newPassword} onChange={e => setData({...data, newPassword: e.target.value})} />
       <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">Zmień</button>
     </form>
