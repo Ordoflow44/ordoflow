@@ -1,6 +1,12 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import Script from 'next/script';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
+// Konfiguracja czcionki
+const inter = Inter({ subsets: ['latin'] });
+
+// Twoje pełne metadane SEO
 export const metadata: Metadata = {
   title: {
     default: 'Ordoflow | Automatyzacja Procesów Biznesowych',
@@ -27,7 +33,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -36,7 +42,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl" className="scroll-smooth">
-      <body>{children}</body>
+      <body className={inter.className}>
+        
+        {/* Skrypt Cookiebot */}
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid="6d244b98-88c2-41fe-9854-0d7852fa0b32"
+          data-blockingmode="auto"
+          strategy="afterInteractive"
+        />
+
+        {children}
+      </body>
     </html>
-  )
+  );
 }
