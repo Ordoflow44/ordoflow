@@ -1,140 +1,83 @@
 -- ===========================================
--- ORDOFLOW DATABASE SCHEMA
+-- ORDOFLOW DATABASE SCHEMA (POCKETBASE VERSION)
 -- ===========================================
 
--- Drop existing tables if they exist (for fresh install)
--- DROP TABLE IF EXISTS articles;
--- DROP TABLE IF EXISTS admins;
--- DROP TABLE IF EXISTS password_reset_tokens;
+-- Note: PocketBase handles IDs (15 chars) and system fields 
+-- (created, updated) automatically for all collections.
 
 -- ===========================================
--- ADMINS TABLE
+-- ADMINS COLLECTION
 -- ===========================================
-CREATE TABLE IF NOT EXISTS admins (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    name VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    last_login_at TIMESTAMP WITH TIME ZONE
-);
+-- Ta kolekcja przechowuje dane administratorów panelu.
+-- W PocketBase używamy pól systemowych do autoryzacji.
 
--- Password reset tokens table
-CREATE TABLE IF NOT EXISTS password_reset_tokens (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    admin_id UUID REFERENCES admins(id) ON DELETE CASCADE,
-    token VARCHAR(255) UNIQUE NOT NULL,
-    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    used_at TIMESTAMP WITH TIME ZONE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Index for faster token lookup
-CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_token ON password_reset_tokens(token);
-CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_admin_id ON password_reset_tokens(admin_id);
+-- Fields for 'admins':
+-- id (System: 15 alphanumeric strings)
+-- email (Type: email, Required, Unique)
+-- password_hash (Type: text, Required)
+-- name (Type: text)
+-- created (System: DateTime)
+-- updated (System: DateTime)
+-- last_login_at (Type: date)
 
 -- ===========================================
--- ARTICLES TABLE
+-- ARTICLES COLLECTION
 -- ===========================================
-CREATE TABLE IF NOT EXISTS articles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    
-    -- Basic content
-    slug VARCHAR(255) UNIQUE NOT NULL,
-    title VARCHAR(500) NOT NULL,
-    excerpt TEXT,
-    content TEXT,
-    cover_image TEXT,
-    
-    -- Author and metadata
-    author VARCHAR(255) DEFAULT 'Maciej Kanikowski',
-    published_at TIMESTAMP WITH TIME ZONE,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
-    -- Status
-    is_published BOOLEAN DEFAULT FALSE,
-    reading_time INTEGER DEFAULT 5,
-    
-    -- SEO fields
-    meta_title VARCHAR(255),
-    meta_description TEXT,
-    meta_keywords TEXT[],
-    
-    -- Categorization
-    category VARCHAR(100),
-    tags TEXT[],
-    
-    -- FAQ for AI Overviews (stored as JSON)
-    faq JSONB DEFAULT '[]'::jsonb
-);
+-- Główna kolekcja przechowująca treści blogowe i dane SEO.
 
--- Indexes for common queries
-CREATE INDEX IF NOT EXISTS idx_articles_slug ON articles(slug);
-CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(is_published, published_at DESC);
-CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
+-- Fields for 'articles':
+-- id (System: 15 alphanumeric strings)
 
--- Auto-update trigger for updated_at
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
+-- Basic content
+-- slug (Type: text, Required, Unique)
+-- title (Type: text, Required)
+-- excerpt (Type: text)
+-- content (Type: editor - Rich Text)
+-- cover_image (Type: text / file)
 
--- Drop trigger if exists and recreate
-DROP TRIGGER IF EXISTS update_articles_updated_at ON articles;
-CREATE TRIGGER update_articles_updated_at
-    BEFORE UPDATE ON articles
-    FOR EACH ROW
-    EXECUTE FUNCTION update_updated_at_column();
+-- Author and metadata
+-- author (Type: text, Default: 'Maciej Kanikowski')
+-- published_at (Type: date)
+-- created (System: DateTime)
+-- updated (System: DateTime)
 
-DROP TRIGGER IF EXISTS update_admins_updated_at ON admins;
-CREATE TRIGGER update_admins_updated_at
-    BEFORE UPDATE ON admins
-    FOR EACH ROW
-    EXECUTE FUNCTION update_updated_at_column();
+-- Status
+-- is_published (Type: bool, Default: False)
+-- reading_time (Type: number, Default: 5)
+
+-- SEO fields
+-- meta_title (Type: text)
+-- meta_description (Type: text)
+-- meta_keywords (Type: json - Text Array)
+
+-- Categorization
+-- category (Type: text)
+-- tags (Type: json - Text Array)
+
+-- FAQ for AI Overviews
+-- faq (Type: json, Default: [])
 
 -- ===========================================
--- ROW LEVEL SECURITY (RLS)
+-- PASSWORD_RESET_TOKENS COLLECTION
 -- ===========================================
+-- Kolekcja pomocnicza do obsługi resetowania haseł.
 
--- Enable RLS on tables
-ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
-ALTER TABLE password_reset_tokens ENABLE ROW LEVEL SECURITY;
-
--- Articles policies
-DROP POLICY IF EXISTS "Public can read published articles" ON articles;
-CREATE POLICY "Public can read published articles" ON articles
-    FOR SELECT USING (is_published = true);
-
-DROP POLICY IF EXISTS "Authenticated can do everything with articles" ON articles;
-CREATE POLICY "Authenticated can do everything with articles" ON articles
-    FOR ALL USING (auth.role() = 'authenticated');
-
--- Admins policies (only service role can access)
-DROP POLICY IF EXISTS "Service role can manage admins" ON admins;
-CREATE POLICY "Service role can manage admins" ON admins
-    FOR ALL USING (auth.role() = 'service_role');
-
--- Password reset tokens policies
-DROP POLICY IF EXISTS "Service role can manage tokens" ON password_reset_tokens;
-CREATE POLICY "Service role can manage tokens" ON password_reset_tokens
-    FOR ALL USING (auth.role() = 'service_role');
-
+-- Fields for 'password_reset_tokens':
+-- id (System: 15 alphanumeric strings)
+-- admin_id (Type: relation, Collection: admins, CascadeDelete: true)
+-- token (Type: text, Required, Unique)
+-- expires_at (Type: date, Required)
+-- used_at (Type: date)
+-- created (System: DateTime)
 
 -- ===========================================
--- NOTES
+-- API RULES (Equivalent to RLS)
 -- ===========================================
--- Default admin credentials:
--- Email: admin@ordoflow.pl
--- Password: Admin123!
--- 
--- IMPORTANT: Change the password after first login!
--- 
--- To manually create a new admin, use bcrypt to hash the password:
--- INSERT INTO admins (email, password_hash, name)
--- VALUES ('email@example.com', '<bcrypt_hash>', 'Name');
+-- PocketBase API Rules zarządzają dostępem zamiast SQL Policies.
+
+-- Articles:
+-- List/View: "is_published = true" (Dla publiczności)
+-- Create/Update/Delete: "@request.auth.id != ''" (Dla zalogowanych adminów)
+
+-- Admins:
+-- All access: restricted to admin system only.
