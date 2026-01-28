@@ -2,13 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.supabase_service_role_key
-
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  serviceRoleKey!
-)
-
+// Supabase initialization moved inside POST function to avoid build-time errors
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json()
@@ -17,6 +11,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Email jest wymagany' },
         { status: 400 }
+          // Initialize Supabase client at runtime
+          const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.supabase_service_role_key
+        const supabaseAdmin = createClient(
+              process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+              serviceRoleKey || ''
+            )
+      
       )
     }
 
